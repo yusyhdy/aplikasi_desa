@@ -10,7 +10,7 @@ class HomeController extends Controller
     //
     public function index()
 {
-    $posts = Post::latest()->take(3)->get(); // Get the latest 3 posts
+    $posts = Post::latest()->take(10)->get(); // Get the latest 3 posts
     return view('home', compact('posts'));
 }
 }
