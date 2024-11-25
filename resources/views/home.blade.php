@@ -28,39 +28,33 @@ Home
         </div>
     </div>
 
-    {{-- Carousel --}}
-    <div id="slideShow" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            @foreach ($posts as $index => $post)
-                <li data-target="#slideShow" data-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}"></li>
-            @endforeach
-        </ol>
+    <!-- Carousel Section -->
+    <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-            @foreach ($posts as $index => $post)
-                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    @if ($post->image)
-                        <img src="{{ asset('images/posts/' . $post->image) }}" height="400" width="1140" class="d-block w-100" alt="{{ $post->title }}">
-                    @else
-                        <img src="https://via.placeholder.com/1140x400" class="d-block w-100" alt="Placeholder Image">
-                    @endif
+            @foreach ($newsPosts as $key => $newsPost)
+                <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                    <img src="{{ $newsPost->image ? asset('images/posts/' . $newsPost->image) : 'https://via.placeholder.com/800x400' }}"
+                         class="d-block w-50"
+                         alt="{{ $newsPost->title }}">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>{{ $post->title }}</h5>
-                        <p>{{ Str::limit($post->body, 100) }}</p>
-                        <a href="{{ route('posts.show', $post) }}" class="btn btn-primary">Baca Selengkapnya</a>
+                        <h5>{{ $newsPost->title }}</h5>
+                        <p>{{ Str::limit($newsPost->body, 150) }}</p>
+                        <a href="{{ route('posts.show', $newsPost) }}" class="btn btn-primary">Baca Selengkapnya</a>
                     </div>
                 </div>
             @endforeach
         </div>
-        <a class="carousel-control-prev" href="#slideShow" role="button" data-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#slideShow" role="button" data-slide="next">
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 
+    <!-- Posts Section -->
     <div class="row mt-4">
         @foreach ($posts as $post)
         <div class="col-md-4 mb-4">
@@ -85,6 +79,10 @@ Home
 @section('scripts')
 <script>
     // Inisialisasi carousel
-    $('.carousel').carousel();
+    var myCarousel = document.querySelector('#newsCarousel');
+    var carousel = new bootstrap.Carousel(myCarousel, {
+        interval: 5000,
+        wrap: true
+    });
 </script>
 @endsection

@@ -64,7 +64,14 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return view('posts.show', compact('post'));
+
+        $relatedPosts = Post::where('category_id', $post->category_id)
+                        ->where('id', '!=', $post->id) // Hindari postingan yang sedang dilihat
+                        ->limit(5) // Batasi jumlah postingan terkait
+                        ->get();
+
+    // Kirim data ke view
+    return view('posts.show', compact('post', 'relatedPosts'));
     }
 
     public function edit(Post $post)

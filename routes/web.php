@@ -52,3 +52,4 @@ Route::get('/categories', [CategoryController::class, 'index'])->name('categorie
 
 Route::resource('posts', PostController::class);
 Route::get('/posts', [PostController::class, 'index'])->name('posts');
+Route::get('/newsPosts', [HomeController::class, 'index'])->name('newsPosts');
